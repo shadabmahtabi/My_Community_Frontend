@@ -1,13 +1,16 @@
 // src/App.jsx
 import React from 'react';
-import BookList from './components/BookList';  // Import the BookList component
+import { BookProvider } from './context/BookContext';
+import BookList from './components/BookList';
 
 function App() {
   return (
-    <div className="App">
-      <h1 className="text-center text-3xl font-bold my-4">Welcome to the Book Library</h1>
-      <BookList />  {/* Display the list of books */}
-    </div>
+    <BookProvider>
+      <div>
+        <h1>Welcome to the Book Library</h1>
+        <BookList />
+      </div>
+    </BookProvider>
   );
 }
 
