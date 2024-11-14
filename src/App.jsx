@@ -1,17 +1,32 @@
-// src/App.jsx
 import React from 'react';
-import { BookProvider } from './context/BookContext';
-import BookList from './components/BookList';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Login from './components/Auth/Login';
+import Register from './components/Auth/Register';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import ProtectedRoute from './components/ProtectedRoute';
+import AuthProvider from './context/AuthContext';
 
-function App() {
+const App = () => {
   return (
-    <BookProvider>
-      <div>
-        <h1>Welcome to the Book Library</h1>
-        <BookList />
-      </div>
-    </BookProvider>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
