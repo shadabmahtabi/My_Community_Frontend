@@ -1,34 +1,44 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import axios from 'axios';
+import Navbar from '../components/UI/Navbar';
 
 const Profile = () => {
   const { user, logout } = useContext(AuthContext);
+  const [borrowedBooks, setBorrowedBooks] = useState([]);
+  const [readingHistory, setReadingHistory] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
 
-  // Dummy data for borrowed books, history, and user details
-  const borrowedBooks = [
-    { title: 'The Great Gatsby', dueDate: '2024-11-20' },
-    { title: 'To Kill a Mockingbird', dueDate: '2024-11-25' },
-  ];
-  const readingHistory = [
-    '1984 by George Orwell',
-    'Pride and Prejudice by Jane Austen',
-    'Moby Dick by Herman Melville',
-  ];
-  const recommendations = [
-    'The Catcher in the Rye',
-    'The Alchemist',
-    'Brave New World',
-  ];
+  // Fetch the user's data, borrowed books, reading history, and recommendations
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // Fetch borrowed books, reading history, and recommendations for the logged-in user
+        const response = await axios.get(`http://localhost:3000/users/profile/${user._id}`);
+        setBorrowedBooks(response.data.borrowedBooks);
+        setReadingHistory(response.data.readingHistory);
+        setRecommendations(response.data.recommendations);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    if (user) {
+      fetchUserData();
+    }
+  }, [user]);
 
   // Personal details
   const userDetails = {
     fullName: user.fullName || 'John Doe',
     mobileNumber: user.mobileNumber || '+1234567890',
     email: user.email || 'johndoe@example.com',
-    membership: 'Standard',  // Assuming "Standard" membership level for example
+    membership: user.membership || 'Standard',
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="p-8 bg-gray-100 min-h-screen">
       {/* User Information */}
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6 space-y-8">
@@ -74,17 +84,21 @@ const Profile = () => {
             Currently Borrowed Books
           </h3>
           <ul className="mt-4 space-y-2">
-            {borrowedBooks.map((book, index) => (
-              <li
-                key={index}
-                className="flex justify-between bg-gray-50 p-4 rounded shadow"
-              >
-                <span>{book.title}</span>
-                <span className="text-gray-600">
-                  Due: {book.dueDate}
-                </span>
-              </li>
-            ))}
+            {borrowedBooks.length === 0 ? (
+              <p className="text-gray-600">No borrowed books found.</p>
+            ) : (
+              borrowedBooks.map((book, index) => (
+                <li
+                  key={index}
+                  className="flex justify-between bg-gray-50 p-4 rounded shadow"
+                >
+                  <span>{book.title}</span>
+                  <span className="text-gray-600">
+                    Due: {new Date(book.dueDate).toLocaleDateString()}
+                  </span>
+                </li>
+              ))
+            )}
           </ul>
         </div>
 
@@ -94,14 +108,18 @@ const Profile = () => {
             Reading History
           </h3>
           <ul className="mt-4 space-y-2">
-            {readingHistory.map((book, index) => (
-              <li
-                key={index}
-                className="bg-gray-50 p-4 rounded shadow text-gray-700"
-              >
-                {book}
-              </li>
-            ))}
+            {readingHistory.length === 0 ? (
+              <p className="text-gray-600">No reading history found.</p>
+            ) : (
+              readingHistory.map((book, index) => (
+                <li
+                  key={index}
+                  className="bg-gray-50 p-4 rounded shadow text-gray-700"
+                >
+                  {book}
+                </li>
+              ))
+            )}
           </ul>
         </div>
 
@@ -111,18 +129,23 @@ const Profile = () => {
             Book Recommendations
           </h3>
           <ul className="mt-4 space-y-2">
-            {recommendations.map((book, index) => (
-              <li
-                key={index}
-                className="bg-gray-50 p-4 rounded shadow text-blue-700 hover:underline"
-              >
-                {book}
-              </li>
-            ))}
+            {recommendations.length === 0 ? (
+              <p className="text-gray-600">No recommendations available.</p>
+            ) : (
+              recommendations.map((book, index) => (
+                <li
+                  key={index}
+                  className="bg-gray-50 p-4 rounded shadow text-blue-700 hover:underline"
+                >
+                  {book}
+                </li>
+              ))
+            )}
           </ul>
         </div>
       </div>
     </div>
+    </>
   );
 };
 
