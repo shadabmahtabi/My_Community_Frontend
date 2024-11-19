@@ -30,17 +30,18 @@ const AuthProvider = ({ children }) => {
   const login = async (username, password) => {
     try {
       const res = await axios.post('/api/users/login', { username, password });
-      const { token } = res.data;
-
+      const { token, role } = res.data; // Assume the API returns a `role`
+  
       // Store token and set header
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
+  
       // Fetch and set the user data
       const response = await axios.get('/api/users/user');
-      setUser(response.data); // This sets the full user data
+      setUser({ ...response.data, role }); // Add the role to the user data
     } catch (error) {
       console.error("Login error:", error);
+      throw new Error("Invalid credentials or role");
     }
   };
 

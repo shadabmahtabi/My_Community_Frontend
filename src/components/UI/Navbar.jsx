@@ -72,12 +72,16 @@ const Navbar = () => {
                 )}
               </>
             ) : (
-              <div className="flex space-x-3">
+              <div className="flex space-x-3 items-center">
+                
                 <Link to="/login">
                   <button className="btn">Login</button>
                 </Link>
                 <Link to="/register">
                   <button className="btn">Register</button>
+                </Link>
+                <Link to="/admin/login" className="text-xs text-orange-900 font-semibold">
+                  <button className="btn">Admin Login</button>
                 </Link>
               </div>
             )}

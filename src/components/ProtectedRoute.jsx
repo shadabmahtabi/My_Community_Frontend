@@ -9,6 +9,11 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
+  if (user.role !== 'admin') {
+    alert('Access denied. Admins only.');
+    return <Navigate to="/" />;
+  }
+
   return children;
 };
 
