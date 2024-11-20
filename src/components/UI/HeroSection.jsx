@@ -10,10 +10,9 @@ const HeroSection = () => {
   const categories = [
     "All Books",
     "Money",
-    "Communication",
-    "Web Development",
     "Habits",
     "Startups",
+    "Communication",
   ];
 
   // State to hold the selected category, books, current page, and books per page

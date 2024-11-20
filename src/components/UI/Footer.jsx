@@ -7,8 +7,12 @@ const Footer = () => {
         {/* Top Section with Logo and Navigation Links */}
         <div className="sm:flex sm:items-center sm:justify-between">
           <a href="/" className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
-            <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Library Logo" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">My Library</span>
+          <img
+              src="../../../public/logo.png"
+              className="h-12 w-32"
+              alt="The Success Shelf Logo"
+            />
+           
           </a>
           <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
             <li>
@@ -32,7 +36,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="sm:flex sm:items-center sm:justify-between">
           <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-            © 2023 <a href="/" className="hover:underline">My Library™</a>. All Rights Reserved.
+            © 2023 <a href="/" className="hover:underline">The Success Shelf™</a>. All Rights Reserved.
           </span>
           <div className="flex mt-4 space-x-5 sm:justify-center sm:mt-0">
             <a href="#" className="text-gray-400 hover:text-gray-900 dark:hover:text-white">

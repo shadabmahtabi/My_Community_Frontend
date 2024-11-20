@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react"; 
-import { Link } from "react-router-dom";  // Import Link from react-router-dom
+import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { AuthContext } from "../../context/AuthContext";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext); // Get user and logout function from context
@@ -14,15 +15,15 @@ const Navbar = () => {
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Link
+            to="/"
+            className="flex items-center space-x-3 rtl:space-x-reverse"
+          >
             <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="h-8"
-              alt="Flowbite Logo"
+              src="../../../public/logo.png"
+              className="h-12 w-32"
+              alt="The Success Shelf Logo"
             />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-              My Library
-            </span>
           </Link>
 
           <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -81,15 +82,17 @@ const Navbar = () => {
               </>
             ) : (
               <div className="flex space-x-3 items-center">
-                
                 <Link to="/login">
-                  <button className="btn">Login</button>
+                  <button className="btn hover:text-blue-500">Login</button>
                 </Link>
                 <Link to="/register">
-                  <button className="btn">Register</button>
+                  <button className="btn hover:text-blue-500">Register</button>
                 </Link>
-                <Link to="/admin/login" className="text-xs text-orange-900 font-semibold">
-                  <button className="btn">Admin Login</button>
+                <Link
+                  to="/admin/login"
+                  className="text-xs text-orange-900 font-semibold"
+                >
+                  <button className="btn hover:text-rose-500">Admin Login</button>
                 </Link>
               </div>
             )}
@@ -97,40 +100,67 @@ const Navbar = () => {
 
           {/* ---------------------- */}
 
-          <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-0" id="navbar-user">
+          <div
+            className="items-center justify-between hidden w-full md:flex md:w-auto md:order-0"
+            id="navbar-user"
+          >
             <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               <li>
-                <Link
+                <NavLink
                   to="/"
-                  className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
+                  className={({ isActive }) =>
+                    `block py-2 px-3 rounded md:bg-transparent md:p-0 md:dark:text-blue-500 ${
+                      isActive
+                        ? "text-blue-700"
+                        : "text-gray-900 dark:text-white"
+                    }`
+                  }
                 >
                   Home
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
+                <NavLink
                   to="/about"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className={({ isActive }) =>
+                    `block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
+                      isActive
+                        ? "text-blue-700"
+                        : "text-gray-900 dark:text-white"
+                    }`
+                  }
                 >
                   About
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link
+                <NavLink
                   to="/books"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className={({ isActive }) =>
+                    `block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
+                      isActive
+                        ? " text-blue-700"
+                        : "text-gray-900 dark:text-white"
+                    }`
+                  }
                 >
                   Books
-                </Link>
+                </NavLink>
               </li>
-            
+
               <li>
-                <Link
+                <NavLink
                   to="/contact"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  className={({ isActive }) =>
+                    `block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 ${
+                      isActive
+                        ? " text-blue-700"
+                        : "text-gray-900 dark:text-white"
+                    }`
+                  }
                 >
                   Contact
-                </Link>
+                </NavLink>
               </li>
             </ul>
           </div>
