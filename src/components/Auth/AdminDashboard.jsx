@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Sidebar from '../adminComponent/Sidebar';
+import BookList from '../adminComponent/BookList';
+import Modal from '../adminComponent/Modal';
 
 const AdminDashboard = () => {
   const [books, setBooks] = useState([]);
@@ -93,12 +96,12 @@ const AdminDashboard = () => {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
         },
-        body: data, // Use FormData
+        body: data,
       });
 
       if (response.ok) {
         alert('Book added successfully!');
-        fetchBooks(); // Refresh book list
+        fetchBooks();
         closeModal();
       } else {
         const error = await response.json();
@@ -131,7 +134,7 @@ const AdminDashboard = () => {
 
       if (response.ok) {
         alert('Book updated successfully!');
-        fetchBooks(); // Refresh book list
+        fetchBooks();
         closeModal();
       } else {
         const error = await response.json();
@@ -157,7 +160,7 @@ const AdminDashboard = () => {
 
       if (response.ok) {
         alert('Book deleted successfully!');
-        fetchBooks(); // Refresh book list
+        fetchBooks();
       } else {
         const error = await response.json();
         alert(`Error: ${error.message}`);
@@ -176,189 +179,33 @@ const AdminDashboard = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <div className="w-64 bg-blue-800 text-white flex flex-col p-4">
-        <h2 className="text-2xl font-bold mb-4">Admin Dashboard</h2>
-        <p className="text-sm mb-6">Logged in as: <strong>{loggedInAdmin}</strong></p>
-        <button
-          onClick={() => openModal('add')}
-          className="bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 mb-4"
-        >
-          Add New Book
-        </button>
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 px-4 py-2 rounded hover:bg-red-600"
-        >
-          Logout
-        </button>
-      </div>
+      <Sidebar
+        loggedInAdmin={loggedInAdmin}
+        openModal={openModal}
+        handleLogout={handleLogout}
+      />
 
       {/* Main Content */}
       <div className="flex-1 p-6">
         <h1 className="text-3xl font-bold mb-6">Book List</h1>
-        <table className="w-full bg-white shadow-md rounded overflow-hidden">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="text-left px-4 py-2">Title</th>
-              <th className="text-left px-4 py-2">Author</th>
-              <th className="text-left px-4 py-2">Category</th>
-              <th className="text-center px-4 py-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {books.map((book) => (
-              <tr key={book._id} className="border-t">
-                <td className="px-4 py-2">{book.title}</td>
-                <td className="px-4 py-2">{book.author}</td>
-                <td className="px-4 py-2">{book.category}</td>
-                <td className="px-4 py-2 text-center">
-                  {book.pdf && (
-                    <a
-                      href={`http://localhost:3000/${book.pdf}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-green-600 hover:underline mr-2"
-                    >
-                      Download PDF
-                    </a>
-                  )}
-                  <button
-                    onClick={() => openModal('view', book)}
-                    className="text-blue-600 hover:underline mr-2"
-                  >
-                    View
-                  </button>
-                  <button
-                    onClick={() => openModal('edit', book)}
-                    className="text-yellow-600 hover:underline mr-2"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDeleteBook(book._id)}
-                    className="text-red-600 hover:underline"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <BookList
+          books={books}
+          openModal={openModal}
+          handleDeleteBook={handleDeleteBook}
+        />
       </div>
 
       {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded shadow-lg w-1/3">
-            <h2 className="text-2xl font-bold mb-4">
-              {modalType === 'add' ? 'Add Book' : modalType === 'edit' ? 'Edit Book' : 'Book Details'}
-            </h2>
-            {modalType === 'view' ? (
-              <div>
-                <p><strong>Title:</strong> {formData.title}</p>
-                <p><strong>Author:</strong> {formData.author}</p>
-                <p><strong>Pages:</strong> {formData.pages}</p>
-                <p><strong>Published:</strong> {formData.published}</p>
-                <p><strong>Category:</strong> {formData.category}</p>
-                <p><strong>Image:</strong> <a href={formData.image} target="_blank" rel="noopener noreferrer">View Image</a></p>
-                {formData.pdf && (
-                  <div>
-                    <p><strong>PDF:</strong></p>
-                    <iframe
-                      src={`http://localhost:3000/${formData.pdf}`}
-                      width="100%"
-                      height="400px"
-                      title="Book PDF"
-                    />
-                  </div>
-                )}
-              </div>
-            ) : (
-              <form>
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="Title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  className="w-full p-2 mb-2 border rounded"
-                />
-                <input
-                  type="text"
-                  name="author"
-                  placeholder="Author"
-                  value={formData.author}
-                  onChange={handleInputChange}
-                  className="w-full p-2 mb-2 border rounded"
-                />
-                <input
-                  type="number"
-                  name="pages"
-                  placeholder="Pages"
-                  value={formData.pages}
-                  onChange={handleInputChange}
-                  className="w-full p-2 mb-2 border rounded"
-                />
-                <input
-                  type="date"
-                  name="published"
-                  value={formData.published}
-                  onChange={handleInputChange}
-                  className="w-full p-2 mb-2 border rounded"
-                />
-                <input
-                  type="text"
-                  name="image"
-                  placeholder="Image URL"
-                  value={formData.image}
-                  onChange={handleInputChange}
-                  className="w-full p-2 mb-2 border rounded"
-                />
-                <input
-                  type="text"
-                  name="category"
-                  placeholder="Category"
-                  value={formData.category}
-                  onChange={handleInputChange}
-                  className="w-full p-2 mb-2 border rounded"
-                />
-                <input
-                  type="file"
-                  name="pdf"
-                  accept="application/pdf"
-                  onChange={handleFileChange}
-                  className="w-full p-2 mb-2 border rounded"
-                />
-              </form>
-            )}
-            <div className="flex justify-end">
-              <button
-                onClick={closeModal}
-                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 mr-2"
-              >
-                Cancel
-              </button>
-              {modalType === 'add' && (
-                <button
-                  onClick={handleAddBook}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                >
-                  Add
-                </button>
-              )}
-              {modalType === 'edit' && (
-                <button
-                  onClick={handleUpdateBook}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                >
-                  Save Changes
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      <Modal
+        isOpen={isModalOpen}
+        modalType={modalType}
+        formData={formData}
+        handleInputChange={handleInputChange}
+        handleFileChange={handleFileChange}
+        closeModal={closeModal}
+        handleAddBook={handleAddBook}
+        handleUpdateBook={handleUpdateBook}
+      />
     </div>
   );
 };
