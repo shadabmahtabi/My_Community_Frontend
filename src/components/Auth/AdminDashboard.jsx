@@ -10,6 +10,7 @@ const AdminDashboard = () => {
     published: '',
     image: '',
     category: '',
+    pdf: null,
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState(''); // 'add', 'edit', or 'view'
@@ -43,6 +44,11 @@ const AdminDashboard = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  // Handle file input change
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, pdf: e.target.files[0] });
+  };
+
   // Open modal
   const openModal = (type, book = null) => {
     setModalType(type);
@@ -57,6 +63,7 @@ const AdminDashboard = () => {
         published: '',
         image: '',
         category: '',
+        pdf: null,
       });
     }
     setIsModalOpen(true);
@@ -71,14 +78,22 @@ const AdminDashboard = () => {
 
   // Add a book
   const handleAddBook = async () => {
+    const data = new FormData();
+    data.append('title', formData.title);
+    data.append('author', formData.author);
+    data.append('pages', formData.pages);
+    data.append('published', formData.published);
+    data.append('image', formData.image);
+    data.append('category', formData.category);
+    data.append('pdf', formData.pdf);
+
     try {
       const response = await fetch('http://localhost:3000/books/addBook', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
         },
-        body: JSON.stringify(formData),
+        body: data, // Use FormData
       });
 
       if (response.ok) {
@@ -96,14 +111,22 @@ const AdminDashboard = () => {
 
   // Update book
   const handleUpdateBook = async () => {
+    const data = new FormData();
+    data.append('title', formData.title);
+    data.append('author', formData.author);
+    data.append('pages', formData.pages);
+    data.append('published', formData.published);
+    data.append('image', formData.image);
+    data.append('category', formData.category);
+    if (formData.pdf) data.append('pdf', formData.pdf);
+
     try {
       const response = await fetch(`http://localhost:3000/books/${editingBookId}`, {
         method: 'PUT',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('adminToken')}`,
         },
-        body: JSON.stringify(formData),
+        body: data,
       });
 
       if (response.ok) {
@@ -189,6 +212,16 @@ const AdminDashboard = () => {
                 <td className="px-4 py-2">{book.author}</td>
                 <td className="px-4 py-2">{book.category}</td>
                 <td className="px-4 py-2 text-center">
+                  {book.pdf && (
+                    <a
+                      href={`http://localhost:3000/${book.pdf}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-green-600 hover:underline mr-2"
+                    >
+                      Download PDF
+                    </a>
+                  )}
                   <button
                     onClick={() => openModal('view', book)}
                     className="text-blue-600 hover:underline mr-2"
@@ -229,6 +262,17 @@ const AdminDashboard = () => {
                 <p><strong>Published:</strong> {formData.published}</p>
                 <p><strong>Category:</strong> {formData.category}</p>
                 <p><strong>Image:</strong> <a href={formData.image} target="_blank" rel="noopener noreferrer">View Image</a></p>
+                {formData.pdf && (
+                  <div>
+                    <p><strong>PDF:</strong></p>
+                    <iframe
+                      src={`http://localhost:3000/${formData.pdf}`}
+                      width="100%"
+                      height="400px"
+                      title="Book PDF"
+                    />
+                  </div>
+                )}
               </div>
             ) : (
               <form>
@@ -279,12 +323,19 @@ const AdminDashboard = () => {
                   onChange={handleInputChange}
                   className="w-full p-2 mb-2 border rounded"
                 />
+                <input
+                  type="file"
+                  name="pdf"
+                  accept="application/pdf"
+                  onChange={handleFileChange}
+                  className="w-full p-2 mb-2 border rounded"
+                />
               </form>
             )}
-            <div className="flex justify-end space-x-4 mt-4">
+            <div className="flex justify-end">
               <button
                 onClick={closeModal}
-                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 mr-2"
               >
                 Cancel
               </button>
@@ -293,15 +344,15 @@ const AdminDashboard = () => {
                   onClick={handleAddBook}
                   className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
-                  Add Book
+                  Add
                 </button>
               )}
               {modalType === 'edit' && (
                 <button
                   onClick={handleUpdateBook}
-                  className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                 >
-                  Update Book
+                  Save Changes
                 </button>
               )}
             </div>
