@@ -20,7 +20,7 @@ const Navbar = () => {
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img
-              src="../../../public/logo.png"
+              src="../../../logo.png"
               className="h-12 w-32"
               alt="The Success Shelf Logo"
             />

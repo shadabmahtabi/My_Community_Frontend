@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="sm:flex sm:items-center sm:justify-between">
           <a href="/" className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
           <img
-              src="../../../public/logo.png"
+              src="../../../logo.png"
               className="h-12 w-32"
               alt="The Success Shelf Logo"
             />
