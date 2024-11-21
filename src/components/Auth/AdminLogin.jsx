@@ -33,8 +33,8 @@ const AdminLogin = () => {
   return (
     <>
       <Navbar />
-      <div className="flex justify-center items-center h-screen bg-gray-100">
-        <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
+      <div className="flex justify-center md:items-center items-start  h-[55vh]">
+        <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6 mt-4 md:mt-0">
           <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Admin Login</h2>
           <LoginForm onLogin={handleLogin} />
         </div>

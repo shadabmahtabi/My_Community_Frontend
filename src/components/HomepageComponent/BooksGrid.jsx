@@ -3,7 +3,7 @@ import React from "react";
 const BooksGrid = ({ books }) => {
  
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {books.length === 0 ? (
         <p className="text-center text-gray-600">
           No books available in this category.
@@ -14,8 +14,8 @@ const BooksGrid = ({ books }) => {
             key={book._id}
             className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300 ease-in-out"
           >
-            <div className="w-full h-64 flex justify-center p-2">
-              <div className="h-full w-40 p-2">
+            <div className="w-full h-32 md:h-64 flex justify-center p-2">
+              <div className="h-full  md:w-40 p-2">
                 <img
                   src={book.image}
                   alt={book.title}
@@ -23,10 +23,10 @@ const BooksGrid = ({ books }) => {
                 />
               </div>
             </div>
-            <div className="p-6 h-full">
+            <div className="p-2 md:p-6 h-full">
               <h3
-                className={`font-bold text-gray-800 ${
-                  book.title.length > 30 ? "text-sm" : "text-xl"
+                className={`font-bold text-xs text-gray-800 ${
+                  book.title.length > 30 ? "text-xs md:text-sm" : "md:text-xl"
                 }`}
               >
                 {book.title}
@@ -37,14 +37,14 @@ const BooksGrid = ({ books }) => {
                   href={`http://localhost:3000/${book.pdf}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-800"
+                  className="bg-yellow-600 text-white px-2 py-1 md:px-4 md:py-2 md:text-base text-xs rounded hover:bg-yellow-800"
                 >
                   View
                 </a>
                 <a
                   href={`http://localhost:3000/${book.pdf}`}
                   download
-                  className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600"
+                  className="bg-emerald-500 text-white px-2 py-1 md:px-4 md:py-2 md:text-base text-xs rounded hover:bg-emerald-600"
                 >
                   Download
                 </a>

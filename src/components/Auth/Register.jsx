@@ -30,8 +30,8 @@ const Register = () => {
   return (
     <>
       <Navbar />
-      <div className='w-full h-screen flex justify-center items-center'>
-        <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <div className='w-full  flex justify-center md:items-center items-start'>
+        <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 mt-4 md:mt-0">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <h5 className="text-xl font-medium text-gray-900 dark:text-white">Create account</h5>
 

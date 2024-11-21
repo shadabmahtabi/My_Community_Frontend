@@ -25,8 +25,8 @@ const Login = () => {
   return (
     <>
     <Navbar/>
-      <div className="h-screen w-full flex items-center justify-center">
-        <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <div className="h-[80vh] w-full flex md:items-center items-start justify-center">
+        <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 mt-8 md:mt-0">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <h5 className="text-xl font-medium text-gray-900 dark:text-white">
               Login account

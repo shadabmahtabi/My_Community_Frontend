@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/UI/Navbar"; // Assuming you have a Navbar component
+import Footer from "../components/UI/Footer";
+import BottomNavigation from "../components/UI/BottomNavigation";
+
 
 const ContactUs = () => {
   const [name, setName] = useState("");
@@ -21,6 +24,23 @@ const ContactUs = () => {
       console.error("Error submitting the contact form", error);
     }
   };
+
+  const [isMobile, setIsMobile] = useState(false);
+  
+
+  // Detect screen size for responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Define breakpoint for mobile devices
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -125,8 +145,11 @@ const ContactUs = () => {
               </form>
             </div>
           </div>
+      
         </div>
       </div>
+       {/* Footer or Bottom Navigation */}
+     {isMobile ? <BottomNavigation /> : <Footer />}
     </>
   );
 };

@@ -1,125 +1,104 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import Navbar from '../components/UI/Navbar';
-import Footer from '../components/UI/Footer';
+import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
+import WelcomeMessage from "../components/HomepageComponent/WelcomeMessage";
+import Categories from "../components/HomepageComponent/Categories";
+import Pagination from "../components/HomepageComponent/Pagination";  // Fixed import
+import BooksGrid from "../components/HomepageComponent/BooksGrid";
+import Footer from "../components/UI/Footer";
+import BottomNavigation from "../components/UI/BottomNavigation";
 
-const BooksPage = () => {
+const HeroSection = () => {
+  const { user } = useContext(AuthContext); // Access user from AuthContext
+
   // Categories to display
-  const categories = ["All Books", "Money", "Communication", "Web Development", "Habits", "Startups"];
-  
-  // State to hold the selected category and the books
+  const categories = [
+    "All Books",
+    "Money",
+    "Habits",
+    "Startups",
+    "Communication",
+  ];
+
+  // State to hold the selected category, books, current page, and books per page
   const [selectedCategory, setSelectedCategory] = useState("All Books");
   const [books, setBooks] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 6; // Number of books per page
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Detect screen size for responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Define breakpoint for mobile devices
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   // Fetch books when the category changes
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/books/category/${selectedCategory}`);
+        const response = await axios.get(
+          selectedCategory === "All Books"
+            ? "http://localhost:3000/books"
+            : `http://localhost:3000/books/category/${selectedCategory}`
+        );
         setBooks(response.data);
+        setCurrentPage(1); // Reset to the first page when category changes
       } catch (error) {
         console.error("Error fetching books:", error);
       }
     };
 
-    // If the category is "All Books", fetch all books
-    if (selectedCategory === "All Books") {
-      axios.get('http://localhost:3000/books')
-        .then(response => setBooks(response.data))
-        .catch(error => console.error("Error fetching books:", error));
-    } else {
-      fetchBooks();
-    }
+    fetchBooks();
   }, [selectedCategory]);
 
+  // Calculate pagination data
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
+  const totalPages = Math.ceil(books.length / booksPerPage);
+
+  // Handle page navigation
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
   return (
-    <>
-      <Navbar/>
     <div>
-      {/* Welcome Message */}
-      <div className="text-center py-8">
-        <h1 className="text-4xl font-bold text-gray-800">Browse Our Book Collection</h1>
-        <p className="text-lg text-gray-600 mt-4">Find books in various categories</p>
-      </div>
+      <WelcomeMessage user={user} />
 
-        {/* Categories Section with Tabs */}
-        <div className="max-w-7xl mx-auto px-6 py-4">
-        <h2 className="text-2xl font-semibold text-gray-800">Categories</h2>
-        <div className="flex gap-4 mt-4">
-          {categories.map((category, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded ${
-                selectedCategory === category
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-200 text-gray-800 hover:bg-blue-500 hover:text-white transition duration-200"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-      </div>
+      <Categories
+        categories={categories}
+        selectedCategory={selectedCategory}
+        setSelectedCategory={setSelectedCategory}
+      />
 
-      {/* Books Grid */}
-      <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {books.length === 0 ? (
-          <p className="text-center text-gray-600">No books available in this category.</p>
-        ) : (
-          books.map((book) => (
-            <div
-              key={book._id}
-              className="bg-white shadow-lg rounded-lg overflow-hidden transform hover:scale-105 transition duration-300 ease-in-out"
-            >
-              <div className="w-full h-64 flex justify-center  p-2">
-              <div className="h-full w-40  p-2">
-                <img
-                  src={book.image}
-                  alt={book.title}
-                  className="h-full w-full object-fill drop-shadow-lg"
-                />
+      <BooksGrid books={currentBooks} />
 
-              </div>
-              </div>
-              <div className="p-6  h-full">
-                <h3
-                  className={`font-bold text-gray-800 ${
-                    book.title.length > 30 ? "text-sm" : "text-xl"
-                  }`}
-                >
-                  {book.title}
-                </h3>
-                <p className="text-gray-600 mt-2">{book.description}</p>
-                <div className="flex gap-4 mt-4">
-                  {/* View Button */}
-                  <a
-                    href={`http://localhost:3000/${book.pdf}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-yellow-600 text-white px-4 py-2 rounded hover:bg-yellow-800"
-                  >
-                    View
-                  </a>
-                  {/* Download Button */}
-                  <a
-                    href={`http://localhost:3000/${book.pdf}`}
-                    download
-                    className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600"
-                  >
-                    Download
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
+      {books.length > booksPerPage && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
+
+      {/* Footer or Bottom Navigation */}
+      {isMobile ? <BottomNavigation /> : <Footer />}
     </div>
-    <Footer/>
-    </>
   );
 };
 
-export default BooksPage;
+export default HeroSection;
