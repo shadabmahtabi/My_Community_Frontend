@@ -8,6 +8,7 @@ import Pagination from "../components/HomepageComponent/Pagination";  // Fixed i
 import BooksGrid from "../components/HomepageComponent/BooksGrid";
 import Footer from "../components/UI/Footer";
 import BottomNavigation from "../components/UI/BottomNavigation";
+import Navbar from "../components/UI/Navbar";
 
 const HeroSection = () => {
   const { user } = useContext(AuthContext); // Access user from AuthContext
@@ -76,6 +77,8 @@ const HeroSection = () => {
   };
 
   return (
+    <>
+  <Navbar/>
     <div>
       <WelcomeMessage user={user} />
 
@@ -98,6 +101,7 @@ const HeroSection = () => {
       {/* Footer or Bottom Navigation */}
       {isMobile ? <BottomNavigation /> : <Footer />}
     </div>
+    </>
   );
 };
 
