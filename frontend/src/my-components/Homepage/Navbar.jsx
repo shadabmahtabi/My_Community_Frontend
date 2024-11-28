@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = ({ handleProfileClick }) => {
   return (
-    <div className="fixed top-0 left-0 w-full bg-gray-100">
+    <div className="fixed top-0 left-0 w-full bg-white">
       <div className="w-full flex items-center justify-between p-4">
         <img
           src="../../../joda masjid logo.png"
