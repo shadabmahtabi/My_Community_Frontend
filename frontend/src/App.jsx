@@ -16,6 +16,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import TransactionManagement from "./pages/Admin/TransactionManagement";
 import Homepage from "./pages/Homepage";
 import NewPassword from "./pages/Auth/NewPassword";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
 
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/new-password" element={<NewPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         
 
 
