@@ -13,11 +13,11 @@ import Donation from "@/pages/Donation";
 import Contact from "@/pages/Contact";
 import Profile from "./pages/Profile";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
-import TransactionManagement from "./pages/Admin/TransactionManagement";
 import Homepage from "./pages/Homepage";
 import NewPassword from "./pages/Auth/NewPassword";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import PaymentPage from "./pages/Payment/PaymentPage";
+import AdminLogin from "./pages/Admin/AdminLogin";
 
 
 const App = () => {
@@ -36,13 +36,13 @@ const App = () => {
         <Route path="/new-password" element={<NewPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
 
         
 
 
 
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/transaction" element={<TransactionManagement />} />
       </Routes>
     </Router>
   );

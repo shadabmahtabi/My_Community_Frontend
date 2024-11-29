@@ -13,6 +13,11 @@ const Login = () => {
     navigate("/"); // Redirect to homepage after successful login
   };
 
+  const handleAdminLogin = () => {
+    // Navigate to the admin login route
+    navigate("/admin-login"); // Redirect to a dedicated admin login page
+  };
+
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center items-center p-4">
       <img
@@ -87,6 +92,15 @@ const Login = () => {
             onClick={() => alert("Signup with Facebook is not yet implemented")}
           >
             Login with Facebook
+          </Button>
+        </div>
+        <div className="mt-4 text-center">
+          <Button
+            type="button"
+            className="w-full bg-gray-800 text-white"
+            onClick={handleAdminLogin}
+          >
+            Admin Login
           </Button>
         </div>
       </div>
