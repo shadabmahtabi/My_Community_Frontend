@@ -20,7 +20,7 @@ const ProfileDialog = ({ isOpen, setIsOpen, handleLogout, handleGoToProfile }) =
           </button>
           <button
             onClick={handleGoToProfile}
-            className="w-full bg-blue-500 text-white p-2 rounded mb-4"
+            className="w-full bg-primary text-white p-2 rounded mb-4"
           >
             Go to Profile
           </button>

@@ -18,7 +18,7 @@ const Login = () => {
       <img src="../../../joda masjid logo.png" alt="Logo" className="w-2/4 h-2/4" />
 
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-center mb-4">Login</h1>
+        <h1 className="text-2xl font-bold text-center mb-4 text-primary">Login</h1>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <Label htmlFor="email" className="block mb-2 text-sm font-medium">

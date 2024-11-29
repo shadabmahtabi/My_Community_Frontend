@@ -5,7 +5,7 @@ import React from "react";
 const TopDonors = ({ donors }) => (
   
   <div className="mb-8">
-    <h2 className="text-lg font-semibold mb-4">Top Donors</h2>
+    <h2 className="text-lg font-semibold mb-4 text-primary">Top Donors</h2>
     <div className="flex items-center justify-center gap-4">
       {donors.map((donor) => (
         <div
@@ -14,8 +14,8 @@ const TopDonors = ({ donors }) => (
         >
           <img src={donor.image} alt={donor.name} className="w-12 h-12 rounded-full" />
           <div>
-            <p className="font-medium text-gray-800 text-sm">{donor.name}</p>
-            <p className="text-xs font-bold text-green-600">{donor.amount}</p>
+            <p className="font-medium text-primary text-sm">{donor.name}</p>
+            <p className="text-xs font-bold text-secondary">{donor.amount}</p>
           </div>
         </div>
       ))}

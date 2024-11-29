@@ -11,7 +11,7 @@ const TransactionHistory = ({ transactions }) => {
   return (
     <div className="bg-white p-4 rounded-lg shadow-md">
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold text-gray-800 mb-3">
+        <h2 className="text-lg font-bold  mb-3">
           Transaction History
         </h2>
         <h2 className="text-green-500 font-semibold">

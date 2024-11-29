@@ -26,10 +26,11 @@ const Homepage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-white
+    ">
       <Navbar handleProfileClick={handleProfileClick} />
       <div className="mt-24 mb-12 pt-12">
-        <h1 className="text-center text-2xl">Welcome to our community</h1>
+        <h1 className="text-center text-2xl text-primary font-semibold">Welcome to our community</h1>
       </div>
       <BoxesContainer activeBox={activeBox} handleBoxClick={handleBoxClick} />
 

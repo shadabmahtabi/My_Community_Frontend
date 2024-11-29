@@ -30,7 +30,7 @@ const Budget = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white text-primary">
       <Navbar handleProfileClick={handleProfileClick} />
       <div className="pt-24 px-4">
         <h1 className="text-2xl font-semibold text-center text-gray-800 mb-6">

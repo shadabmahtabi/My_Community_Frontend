@@ -16,7 +16,7 @@ const Signup = () => {
       <img src="../../../joda masjid logo.png" alt="Logo" className="w-2/4 h-2/4" />
 
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-center mb-4">Sign Up</h1>
+        <h1 className="text-2xl font-bold text-center mb-4 text-primary">Sign Up</h1>
 
         <form onSubmit={handleSignup}>
           <div className="mb-4">

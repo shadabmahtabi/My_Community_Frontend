@@ -1,0 +1,9 @@
+All route page design
+
+/login
+/signup
+/budget
+/all-users
+/donation
+/contact
+/profile

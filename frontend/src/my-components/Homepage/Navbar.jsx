@@ -10,8 +10,8 @@ const Navbar = ({ handleProfileClick }) => {
           className="w-1/4 h-1/4"
         />
         <div>
-          <h1 className="text-center text-lg">
-            Hello, <span>Username</span> 🖐️
+          <h1 className="text-center text-lg text-primary">
+            Hello, <span className="font-semibold text-secondary">Username</span> 🖐️
           </h1>
         </div>
         <div
