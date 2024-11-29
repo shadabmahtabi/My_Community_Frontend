@@ -17,6 +17,7 @@ import TransactionManagement from "./pages/Admin/TransactionManagement";
 import Homepage from "./pages/Homepage";
 import NewPassword from "./pages/Auth/NewPassword";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
+import PaymentPage from "./pages/Payment/PaymentPage";
 
 
 const App = () => {
@@ -34,6 +35,8 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/new-password" element={<NewPassword />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/payment" element={<PaymentPage />} />
+
         
 
 
