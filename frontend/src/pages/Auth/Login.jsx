@@ -10,15 +10,21 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     // Perform authentication here
-    navigate("/homepage"); // Redirect to homepage after successful login
+    navigate("/"); // Redirect to homepage after successful login
   };
 
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center items-center p-4">
-      <img src="../../../joda masjid logo.png" alt="Logo" className="w-2/4 h-2/4" />
+      <img
+        src="../../../joda masjid logo.png"
+        alt="Logo"
+        className="w-2/4 h-2/4"
+      />
 
       <div className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold text-center mb-4 text-primary">Login</h1>
+        <h1 className="text-2xl font-bold text-center mb-4 text-primary">
+          Login
+        </h1>
         <form onSubmit={handleLogin}>
           <div className="mb-4">
             <Label htmlFor="email" className="block mb-2 text-sm font-medium">
@@ -33,7 +39,10 @@ const Login = () => {
             />
           </div>
           <div className="mb-4">
-            <Label htmlFor="password" className="block mb-2 text-sm font-medium">
+            <Label
+              htmlFor="password"
+              className="block mb-2 text-sm font-medium"
+            >
               Password
             </Label>
             <Input
@@ -49,7 +58,10 @@ const Login = () => {
           </Button>
         </form>
         <div className="text-center mt-4">
-          <Link to="/forgot-password" className="text-sm text-blue-500 hover:underline">
+          <Link
+            to="/forgot-password"
+            className="text-sm text-blue-500 hover:underline"
+          >
             Forgot Password?
           </Link>
         </div>

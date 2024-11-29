@@ -1,9 +1,8 @@
 import BoxesContainer from "@/my-components/Homepage/BoxContainer";
-import Navbar from "@/my-components/Homepage/Navbar";
-import ProfileDialog from "@/my-components/Homepage/ProfileDialog";
+import Navbar from "@/my-components/common-components/Navbar";
+import ProfileDialog from "@/my-components/common-components/ProfileDialog";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 
 const Homepage = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -26,11 +25,15 @@ const Homepage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white
-    ">
+    <div
+      className="min-h-screen bg-white
+    "
+    >
       <Navbar handleProfileClick={handleProfileClick} />
       <div className="mt-24 mb-12 pt-12">
-        <h1 className="text-center text-2xl text-primary font-semibold">Welcome to our community</h1>
+        <h1 className="text-center text-2xl text-primary font-semibold">
+          Welcome to our community
+        </h1>
       </div>
       <BoxesContainer activeBox={activeBox} handleBoxClick={handleBoxClick} />
 

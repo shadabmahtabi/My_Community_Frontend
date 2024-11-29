@@ -1,12 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import Navbar from "@/my-components/Homepage/Navbar";
+import Navbar from "@/my-components/common-components/Navbar";
 import SummarySection from "@/my-components/Budget/SummarySection";
 import ChartSection from "@/my-components/Budget/ChartSection";
 import TransactionHistory from "@/my-components/Budget/TransactionHistory";
-import ProfileDialog from "@/my-components/Homepage/ProfileDialog";
-
+import ProfileDialog from "@/my-components/common-components/ProfileDialog";
 
 const transactions = [
   { category: "Rent", amount: 5000, date: "2024-11-20" },
@@ -41,7 +40,7 @@ const Budget = () => {
         <TransactionHistory transactions={transactions} />
       </div>
       <ProfileDialog
-         isOpen={isDialogOpen}
+        isOpen={isDialogOpen}
         setIsOpen={setIsDialogOpen}
         handleLogout={handleLogout}
         handleGoToProfile={handleGoToProfile}

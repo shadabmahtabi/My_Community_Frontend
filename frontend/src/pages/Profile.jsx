@@ -3,10 +3,8 @@ import ProfileSection from "@/my-components/Profile/ProfileSection";
 import DonationHistory from "@/my-components/Profile/DonationHistory";
 import EditProfileModal from "@/my-components/Profile/EditProfileModal";
 import LogoutButton from "@/my-components/Profile/LogoutButton";
-import Navbar from "@/my-components/Homepage/Navbar";
-import ProfileDialog from "@/my-components/Homepage/ProfileDialog";
-
-
+import Navbar from "@/my-components/common-components/Navbar";
+import ProfileDialog from "@/my-components/common-components/ProfileDialog";
 
 const Profile = () => {
   // State for profile data
@@ -21,7 +19,6 @@ const Profile = () => {
   // Modal visibility
   const [showModal, setShowModal] = useState(false);
 
-
   const handleGoToProfile = () => {
     navigate("/profile");
     setIsDialogOpen(false);
@@ -30,15 +27,27 @@ const Profile = () => {
   // Donation history data
   const donationHistory = [
     { id: 1, cause: "Helping the Homeless", amount: 100, date: "2024-11-26" },
-    { id: 2, cause: "Support Education for All", amount: 150, date: "2024-11-25" },
+    {
+      id: 2,
+      cause: "Support Education for All",
+      amount: 150,
+      date: "2024-11-25",
+    },
     { id: 3, cause: "Clean Water for All", amount: 200, date: "2024-11-24" },
   ];
 
   // Total donations
-  const totalDonated = donationHistory.reduce((total, donation) => total + donation.amount, 0);
+  const totalDonated = donationHistory.reduce(
+    (total, donation) => total + donation.amount,
+    0
+  );
 
   // Handle save changes
-  const handleSaveChanges = (updatedName, updatedEmail, updatedMobileNumber) => {
+  const handleSaveChanges = (
+    updatedName,
+    updatedEmail,
+    updatedMobileNumber
+  ) => {
     setName(updatedName);
     setEmail(updatedEmail);
     setMobileNumber(updatedMobileNumber);
@@ -56,8 +65,7 @@ const Profile = () => {
       <Navbar handleProfileClick={handleProfileClick} />
 
       <h1 className="text-xl font-bold text-center mb-6 mt-24">Profile</h1>
-      
-      
+
       {/* Profile Section */}
       <ProfileSection
         name={name}
@@ -85,7 +93,7 @@ const Profile = () => {
       )}
 
       <ProfileDialog
-         isOpen={isDialogOpen}
+        isOpen={isDialogOpen}
         setIsOpen={setIsDialogOpen}
         handleLogout={handleLogout}
         handleGoToProfile={handleGoToProfile}
