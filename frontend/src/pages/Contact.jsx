@@ -5,8 +5,10 @@ import ContactInfo from "@/my-components/Contact/ContactInfo";
 import Navbar from "@/my-components/common-components/Navbar";
 import ProfileDialog from "@/my-components/common-components/ProfileDialog";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Contact = () => {
+  const navigate = useNavigate()
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Manage dialog state
 
   const handleProfileClick = () => setIsDialogOpen(true);
