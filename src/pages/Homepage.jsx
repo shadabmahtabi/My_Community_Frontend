@@ -1,15 +1,13 @@
-"use client";
-
-import ContactForm from "@/my-components/Contact/ContactForm";
-import ContactInfo from "@/my-components/Contact/ContactInfo";
+import BoxesContainer from "@/my-components/Homepage/BoxContainer";
 import Navbar from "@/my-components/common-components/Navbar";
 import ProfileDialog from "@/my-components/common-components/ProfileDialog";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Contact = () => {
-  const navigate = useNavigate()
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // Manage dialog state
+const Homepage = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [activeBox, setActiveBox] = useState(null);
+  const navigate = useNavigate();
 
   const handleProfileClick = () => setIsDialogOpen(true);
   const handleLogout = () => {
@@ -21,20 +19,24 @@ const Contact = () => {
     navigate("/profile");
     setIsDialogOpen(false);
   };
+  const handleBoxClick = (boxId, path) => {
+    setActiveBox(boxId);
+    navigate(path);
+  };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Navbar */}
+    <div
+      className="min-h-screen bg-white
+    "
+    >
       <Navbar handleProfileClick={handleProfileClick} />
-
-      {/* Main Content */}
-      <div className="p-4 mt-24">
-        <h1 className="text-xl font-bold text-center mb-6">Contact Us</h1>
-        <ContactInfo />
-        <ContactForm />
+      <div className="mt-24 mb-12 pt-12">
+        <h1 className="text-center text-2xl text-primary font-semibold">
+          Welcome to our community
+        </h1>
       </div>
+      <BoxesContainer activeBox={activeBox} handleBoxClick={handleBoxClick} />
 
-      {/* Profile Options Dialog */}
       <ProfileDialog
         isOpen={isDialogOpen}
         setIsOpen={setIsDialogOpen}
@@ -45,4 +47,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default Homepage;

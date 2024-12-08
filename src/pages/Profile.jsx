@@ -1,151 +1,104 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../context/AuthContext';
-import axios from 'axios';
-import Navbar from '../components/UI/Navbar';
+import React, { useState } from "react";
+import ProfileSection from "@/my-components/Profile/ProfileSection";
+import DonationHistory from "@/my-components/Profile/DonationHistory";
+import EditProfileModal from "@/my-components/Profile/EditProfileModal";
+import LogoutButton from "@/my-components/Profile/LogoutButton";
+import Navbar from "@/my-components/common-components/Navbar";
+import ProfileDialog from "@/my-components/common-components/ProfileDialog";
 
 const Profile = () => {
-  const { user, logout } = useContext(AuthContext);
-  const [borrowedBooks, setBorrowedBooks] = useState([]);
-  const [readingHistory, setReadingHistory] = useState([]);
-  const [recommendations, setRecommendations] = useState([]);
+  // State for profile data
+  const [name, setName] = useState("John Doe");
+  const [email, setEmail] = useState("johndoe@example.com");
+  const [mobileNumber, setMobileNumber] = useState("+1234567890");
 
-  // Fetch the user's data, borrowed books, reading history, and recommendations
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Fetch borrowed books, reading history, and recommendations for the logged-in user
-        const response = await axios.get(`http://localhost:3000/users/profile/${user._id}`);
-        setBorrowedBooks(response.data.borrowedBooks);
-        setReadingHistory(response.data.readingHistory);
-        setRecommendations(response.data.recommendations);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    if (user) {
-      fetchUserData();
-    }
-  }, [user]);
+  const handleProfileClick = () => setIsDialogOpen(true);
 
-  // Personal details
-  const userDetails = {
-    fullName: user.fullName || 'John Doe',
-    mobileNumber: user.mobileNumber || '+1234567890',
-    email: user.email || 'johndoe@example.com',
-    membership: user.membership || 'Standard',
+  // Modal visibility
+  const [showModal, setShowModal] = useState(false);
+
+  const handleGoToProfile = () => {
+    navigate("/profile");
+    setIsDialogOpen(false);
+  };
+
+  // Donation history data
+  const donationHistory = [
+    { id: 1, cause: "Helping the Homeless", amount: 100, date: "2024-11-26" },
+    {
+      id: 2,
+      cause: "Support Education for All",
+      amount: 150,
+      date: "2024-11-25",
+    },
+    { id: 3, cause: "Clean Water for All", amount: 200, date: "2024-11-24" },
+  ];
+
+  // Total donations
+  const totalDonated = donationHistory.reduce(
+    (total, donation) => total + donation.amount,
+    0
+  );
+
+  // Handle save changes
+  const handleSaveChanges = (
+    updatedName,
+    updatedEmail,
+    updatedMobileNumber
+  ) => {
+    setName(updatedName);
+    setEmail(updatedEmail);
+    setMobileNumber(updatedMobileNumber);
+    setShowModal(false);
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    alert("Logged out!");
+    // Add your logout logic here
   };
 
   return (
-    <>
-    <Navbar/>
-    <div className="p-8 bg-gray-100 min-h-screen">
-      {/* User Information */}
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6 space-y-8">
-        <div className="flex items-center space-x-6">
-          <img
-            className="w-24 h-24 rounded-full"
-            src={user.photo || '/default-avatar.png'}
-            alt="User Profile"
-          />
-          <div>
-            <h2 className="text-2xl font-semibold text-gray-800">
-              {userDetails.fullName}
-            </h2>
-            <p className="text-gray-500">Membership: {userDetails.membership}</p>
-            <button
-              onClick={logout}
-              className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
+    <div className="min-h-screen bg-white p-4">
+      <Navbar handleProfileClick={handleProfileClick} />
 
-        {/* Personal Details */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-gray-50 p-4 rounded shadow">
-            <h3 className="text-gray-700 font-semibold">Full Name</h3>
-            <p>{userDetails.fullName}</p>
-          </div>
-          <div className="bg-gray-50 p-4 rounded shadow">
-            <h3 className="text-gray-700 font-semibold">Email</h3>
-            <p>{userDetails.email}</p>
-          </div>
-          <div className="bg-gray-50 p-4 rounded shadow">
-            <h3 className="text-gray-700 font-semibold">Mobile Number</h3>
-            <p>{userDetails.mobileNumber}</p>
-          </div>
-        </div>
+      <h1 className="text-xl font-bold text-center mb-6 mt-24">Profile</h1>
 
-        {/* Borrowed Books Section */}
-        <div>
-          <h3 className="text-xl font-semibold text-gray-700 border-b pb-2">
-            Currently Borrowed Books
-          </h3>
-          <ul className="mt-4 space-y-2">
-            {borrowedBooks.length === 0 ? (
-              <p className="text-gray-600">No borrowed books found.</p>
-            ) : (
-              borrowedBooks.map((book, index) => (
-                <li
-                  key={index}
-                  className="flex justify-between bg-gray-50 p-4 rounded shadow"
-                >
-                  <span>{book.title}</span>
-                  <span className="text-gray-600">
-                    Due: {new Date(book.dueDate).toLocaleDateString()}
-                  </span>
-                </li>
-              ))
-            )}
-          </ul>
-        </div>
+      {/* Profile Section */}
+      <ProfileSection
+        name={name}
+        email={email}
+        mobileNumber={mobileNumber}
+        totalDonated={totalDonated}
+        onEdit={() => setShowModal(true)}
+      />
 
-        {/* Reading History */}
-        <div>
-          <h3 className="text-xl font-semibold text-gray-700 border-b pb-2">
-            Reading History
-          </h3>
-          <ul className="mt-4 space-y-2">
-            {readingHistory.length === 0 ? (
-              <p className="text-gray-600">No reading history found.</p>
-            ) : (
-              readingHistory.map((book, index) => (
-                <li
-                  key={index}
-                  className="bg-gray-50 p-4 rounded shadow text-gray-700"
-                >
-                  {book}
-                </li>
-              ))
-            )}
-          </ul>
-        </div>
+      {/* Donation History */}
+      <DonationHistory donationHistory={donationHistory} />
 
-        {/* Recommendations */}
-        <div>
-          <h3 className="text-xl font-semibold text-gray-700 border-b pb-2">
-            Book Recommendations
-          </h3>
-          <ul className="mt-4 space-y-2">
-            {recommendations.length === 0 ? (
-              <p className="text-gray-600">No recommendations available.</p>
-            ) : (
-              recommendations.map((book, index) => (
-                <li
-                  key={index}
-                  className="bg-gray-50 p-4 rounded shadow text-blue-700 hover:underline"
-                >
-                  {book}
-                </li>
-              ))
-            )}
-          </ul>
-        </div>
-      </div>
+      {/* Logout Button */}
+      <LogoutButton onLogout={handleLogout} />
+
+      {/* Edit Profile Modal */}
+      {showModal && (
+        <EditProfileModal
+          name={name}
+          email={email}
+          mobileNumber={mobileNumber}
+          onSave={handleSaveChanges}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+
+      <ProfileDialog
+        isOpen={isDialogOpen}
+        setIsOpen={setIsDialogOpen}
+        handleLogout={handleLogout}
+        handleGoToProfile={handleGoToProfile}
+      />
     </div>
-    </>
   );
 };
 
